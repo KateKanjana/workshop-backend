@@ -1,0 +1,84 @@
+{
+    "family": "{{app_name}}-prod",
+    "executionRoleArn": "arn:aws:iam::{{AWS_ACCOUNT_ID}}:role/ecsTaskExecutionRole",
+    "taskRoleArn": "arn:aws:iam::{{AWS_ACCOUNT_ID}}:role/ecsTaskExecutionRole",
+    "networkMode": "awsvpc",
+    "containerDefinitions": [
+        {
+            "name": "{{app_name}}-prod",
+            "image": "{{AWS_ACCOUNT_ID}}.dkr.ecr.ap-southeast-1.amazonaws.com/{{app_name}}-prod:latest",
+            "portMappings": [
+                {
+                    "containerPort": "{{host_port}}",
+                    "hostPort": "{{host_port}}",
+                    "protocol": "tcp"
+                },
+                {
+                    "containerPort": "{{microservice_port}}",
+                    "hostPort": "{{microservice_port}}",
+                    "protocol": "tcp"
+                }
+            ],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "{{app_name}}-{{node_env}}",
+                    "awslogs-region": "{{aws_region}}",
+                    "awslogs-stream-prefix": "{{app_name}}-{{node_env}}"
+                }
+            },
+            "essential": true,
+            "environment": [
+                {
+                    "name": "NODE_ENV",
+                    "value": "{{node_env}}"
+                },
+                {
+                    "name": "APP_NAME",
+                    "value": "{{app_name}}"
+                },
+                {
+                    "name": "PORT",
+                    "value": "{{app_port}}"
+                },
+                {
+                    "name": "MICROSERVICE_PORT",
+                    "value": "{{microservice_port}}"
+                },
+                {
+                    "name": "DB_HOST",
+                    "value": "{{db_host}}"
+                },
+                {
+                    "name": "DB_PORT",
+                    "value": "{{db_port}}"
+                },
+                {
+                    "name": "DB_USER",
+                    "value": "{{db_username}}"
+                },
+                {
+                    "name": "DB_PASS",
+                    "value": "{{db_password}}"
+                },
+                {
+                    "name": "DB_NAME",
+                    "value": "{{db_name}}"
+                },
+                {
+                    "name": "AWS_REGION",
+                    "value": "{{aws_region}}"
+                },
+                {
+                    "name": "CORS",
+                    "value": "{{cors}}"
+                }
+            ]
+        }
+    ],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "256",
+    "memory": "512"
+}

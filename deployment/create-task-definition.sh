@@ -1,0 +1,1 @@
+aws ecs register-task-definition --region ap-southeast-1 --cli-input-json file://${PWD}/task-definition.json

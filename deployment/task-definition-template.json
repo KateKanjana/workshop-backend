@@ -1,0 +1,33 @@
+{
+    "family": "oandb-crm-point-api-dev", 
+    "executionRoleArn": "arn:aws:iam::565329230104:role/ecsTaskExecutionRole",
+    "taskRoleArn": "arn:aws:iam::565329230104:role/ecsTaskExecutionRole",
+    "networkMode": "awsvpc", 
+    "containerDefinitions": [
+        {
+            "name": "oandb-crm-point-api-dev",
+            "image": "565329230104.dkr.ecr.ap-southeast-1.amazonaws.com/oandb-crm-point-api-dev:latest",
+            "portMappings": [
+                {
+                    "containerPort": 4002, 
+                    "hostPort": 4002, 
+                    "protocol": "tcp"
+                }
+            ],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "oandb-crm-point-api-dev",
+                    "awslogs-region": "ap-southeast-1",
+                    "awslogs-stream-prefix": "oandb-crm-point-api-dev"
+                }
+            },
+            "essential": true
+        }
+    ], 
+    "requiresCompatibilities": [
+        "FARGATE"
+    ], 
+    "cpu": "256",
+    "memory": "512"
+}

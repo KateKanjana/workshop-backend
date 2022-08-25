@@ -1,0 +1,108 @@
+{
+    "family": "{{app_name}}-dev",
+    "executionRoleArn": "arn:aws:iam::{{aws_account_id}}:role/ecsTaskExecutionRole",
+    "taskRoleArn": "arn:aws:iam::{{aws_account_id}}:role/ecsTaskExecutionRole",
+    "networkMode": "awsvpc",
+    "containerDefinitions": [
+        {
+            "name": "{{app_name}}-dev",
+            "image": "{{aws_account_id}}.dkr.ecr.ap-southeast-1.amazonaws.com/{{app_name}}-dev:latest",
+            "portMappings": [
+                {
+                    "containerPort": "{{host_port}}",
+                    "hostPort": "{{host_port}}",
+                    "protocol": "tcp"
+                },
+                {
+                    "containerPort": "{{microservice_port}}",
+                    "hostPort": "{{microservice_port}}",
+                    "protocol": "tcp"
+                }
+            ],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "{{app_name}}-{{node_env}}",
+                    "awslogs-region": "{{aws_region}}",
+                    "awslogs-stream-prefix": "{{app_name}}-{{node_env}}"
+                }
+            },
+            "essential": true,
+            "environment": [
+                {
+                    "name": "NODE_ENV",
+                    "value": "{{node_env}}"
+                },
+                {
+                    "name": "APP_NAME",
+                    "value": "{{app_name}}"
+                },
+                {
+                    "name": "PORT",
+                    "value": "{{app_port}}"
+                },
+                {
+                    "name": "MICROSERVICE_PORT",
+                    "value": "{{microservice_port}}"
+                },
+                {
+                    "name": "DB_HOST",
+                    "value": "{{db_host}}"
+                },
+                {
+                    "name": "DB_PORT",
+                    "value": "{{db_port}}"
+                },
+                {
+                    "name": "DB_DBUSER",
+                    "value": "{{db_username}}"
+                },
+                {
+                    "name": "DB_PASSWORD",
+                    "value": "{{db_password}}"
+                },
+                {
+                    "name": "DB_NAME",
+                    "value": "{{db_name}}"
+                },
+                {
+                    "name": "AWS_REGION",
+                    "value": "{{aws_region}}"
+                },
+                {
+                    "name": "CORS",
+                    "value": "{{cors}}"
+                },
+                {
+                    "name": "DB_SSL",
+                    "value": "true"
+                },
+                {
+                    "name": "MODULE",
+                    "value": "{{module}}"
+                },
+                {
+                    "name": "JWT_SECRET",
+                    "value": "{{jwt_secret}}"
+                },
+                {
+                    "name": "JWT_REFRESH_TOKEN_SECRET",
+                    "value": "{{jwt_refresh_token_secret}}"
+                },
+                {
+                    "name": "PUBLIC_KEY",
+                    "value": "{{public_key}}"
+                },
+                {
+                    "name": "PRIVATE_KEY",
+                    "value": "private_key"
+                }
+            ]
+        }
+    ],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "256",
+    "memory": "512"
+}
